@@ -1,0 +1,10 @@
+html {
+    background: url("../images/throneRoom.jpg") no-repeat center fixed;
+    background-size: cover;
+}
+
+#gameTitle {
+    padding: 15px 9px;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 3vw;
+}
