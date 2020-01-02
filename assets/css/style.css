@@ -8,3 +8,17 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
     font-size: 3vw;
 }
+
+.charImg {
+    width: 100%;
+    height: auto;
+}
+
+.charCard {
+    background-color: black !important;
+    padding: 3px !important;
+}
+
+.sectionTitle {
+    font-size: 2vw;
+}
