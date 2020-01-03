@@ -22,3 +22,7 @@ html {
 .sectionTitle {
     font-size: 2vw;
 }
+
+.bgBlackTransparent {
+    background-color: rgba(0, 0, 0, 0.5);
+}
