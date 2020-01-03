@@ -55,7 +55,7 @@ function renderEnemiesBox(char) {
   let img = `<img src="` + char.image + `" alt="" class="charImg">`;
   let health = "<p class='center-align'>" + char.health + "</p>";
     $("#enemies").append(
-      `<div class="col s4"><div class="card">
+      `<div class="col s3"><div class="card">
 <div class="card-content charCard" id="char` +
       index +
       `">` +
@@ -80,8 +80,8 @@ function renderDefenderBox(char) {
     char.health +
     "</p>";
   $("#defender").replaceWith(
-    `<div class="col s4"><div class="card">
-        <div class="card-content charCard" id="char` +
+    `<div class="col s3"><div class="card">
+        <div class="card-content charCard"` +
     defenderIndex +
     `">` +
     name +
@@ -130,7 +130,7 @@ function listenForCharacterSelection() {
 
         renderDefenderBox(characters[defenderIndex])
         index = 0;
-        // $("#enemies").empty();
+        $("#enemies").empty();
         characters.forEach(char => {
           let enemyIndex = 0
           if ((char.name != characters[selectedCharacterIndex].name) && (char.name != characters[defenderIndex].name) && (enemyIndex === 0 )) {
