@@ -8,6 +8,8 @@ function Character(name, image, health, attackPower, counterAttackPower) {
 
 characters = [];
 let selectedCharacterIndex;
+let defenderIndex;
+let index;
 
 characters.push(new Character("Yoda", "./assets/images/yoda.jpg", 100, 8, 15));
 characters.push(
@@ -18,85 +20,124 @@ characters.push(
   new Character("Darth Maul", "./assets/images/maul.jpg", 100, 8, 15)
 );
 
-function addCharacterSelector(char) {
-  console.log("CHAR: ", char);
-
-  let index = 0;
-  char.forEach(character => {
-    console.log("INDEX: ", index);
-    let name = "<p class='center-align'>" + character.name + "</p>";
-    let img = `<img src="` + character.image + `" alt="" class="charImg">`;
-    let health = "<p class='center-align'>" + character.health + "</p>";
+function renderYourCharacterBox(character) {
+  let name = "<p class='center-align'>" + character.name + "</p>";
+  let img = `<img src="` + character.image + `" alt="" class="charImg">`;
+  let health = "<p class='center-align'>" + character.health + "</p>";
+  if (!selectedCharacterIndex) {
     $("#characterSelect").append(
       `<div class="col s3"><div class="card">
-  <div class="card-content charCard" id="char` +
-        index +
-        `">` +
-        name +
-        img +
-        health +
-        `</div></div></div>`
+    <div class="card-content charCard" id="char` +
+      index +
+      `">` +
+      name +
+      img +
+      health +
+      `</div></div></div>`
     );
-    index++;
-  });
+  } else {
+    $("#characterSelect").replaceWith(
+      `<div class="col s3"><div class="card">
+    <div class="card-content charCard" id="char` +
+      index +
+      `">` +
+      name +
+      img +
+      health +
+      `</div></div></div>`
+    );
+  }
+}
 
+function renderEnemiesBox(char) {
+  console.log("Index: ", index, char.name)
+  let name = "<p class='center-align'>" + char.name + "</p>";
+  let img = `<img src="` + char.image + `" alt="" class="charImg">`;
+  let health = "<p class='center-align'>" + char.health + "</p>";
+  $("#enemies").append(
+    `<div class="col s4"><div class="card">
+<div class="card-content charCard" id="char` +
+    index +
+    `">` +
+    name +
+    img +
+    health +
+    `</div></div></div>`
+  );
+}
+
+function renderDefenderBox(char) {
+  let name =
+    "<p class='center-align'>" +
+    char.name +
+    "</p>";
+  let img =
+    `<img src="` +
+    char.image +
+    `" alt="" class="charImg">`;
+  let health =
+    "<p class='center-align'>" +
+    char.health +
+    "</p>";
+  $("#defender").replaceWith(
+    `<div class="col s4"><div class="card">
+        <div class="card-content charCard" id="char` +
+    defenderIndex +
+    `">` +
+    name +
+    img +
+    health +
+    `</div></div></div>`
+  );
+}
+
+function callForYourCharacterRender(char) {
+  if (!selectedCharacterIndex) {
+    index = 0;
+    char.forEach(character => {
+      renderYourCharacterBox(character);
+      index++;
+    });
+  }
   listenForCharacterSelection();
 }
 
 function listenForCharacterSelection() {
-  $(".charCard").on("click", function() {
+  $(".charCard").on("click", function () {
     if (!selectedCharacterIndex) {
       selectedCharacterIndex = this.id.substring(4);
 
-      let name =
-        "<p class='center-align'>" +
-        characters[this.id.substring(4)].name +
-        "</p>";
-      let img =
-        `<img src="` +
-        characters[this.id.substring(4)].image +
-        `" alt="" class="charImg">`;
-      let health =
-        "<p class='center-align'>" +
-        characters[this.id.substring(4)].health +
-        "</p>";
-      $("#characterSelect").replaceWith(
-        `<div class="col s4"><div class="card">
-        <div class="card-content charCard" id="char` +
-          this.id.substring(4) +
-          `">` +
-          name +
-          img +
-          health +
-          `</div></div></div>`
-      );
+      // REPLACE 'YOUR CHARACTER' BOX WITH ONLY SELECTED CHARACTER
+      renderYourCharacterBox(characters[selectedCharacterIndex])
 
-      let index = 0;
+      // FILL 'ENEMIES' BOX WITH REMAINING CHARACTERS
+      index = 0;
       characters.forEach(char => {
-        if (char.name != characters[selectedCharacterIndex].name ) {
-          console.log("look here: ", char.name, index)
-          let name = "<p class='center-align'>" + char.name + "</p>";
-    let img = `<img src="` + char.image + `" alt="" class="charImg">`;
-    let health = "<p class='center-align'>" + char.health + "</p>";
-    $("#enemies").append(
-      `<div class="col s4"><div class="card">
-  <div class="card-content enemyCard" id="char` +
-        index +
-        `">` +
-        name +
-        img +
-        health +
-        `</div></div></div>`
-    );
+        if (char.name != characters[selectedCharacterIndex].name) {
+          renderEnemiesBox(char)
         }
         index++;
       });
       listenForCharacterSelection()
     }
     else {
-      console.log("Char selected!")
+      if (!defenderIndex) {
+        defenderIndex = this.id.substring(4)
+
+        console.log("DEF INDEX: ", defenderIndex)
+
+        renderDefenderBox(characters[defenderIndex])
+        index = 0;
+        characters.forEach(char => {
+          if ((char.name != characters[selectedCharacterIndex].name) && (char.name != characters[defenderIndex].name)) {
+            renderEnemiesBox(char)
+          }
+          index++;
+        });
+
+      }
     }
   });
 }
 
-addCharacterSelector(characters);
+callForYourCharacterRender(characters);
