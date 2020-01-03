@@ -54,16 +54,16 @@ function renderEnemiesBox(char) {
   let name = "<p class='center-align'>" + char.name + "</p>";
   let img = `<img src="` + char.image + `" alt="" class="charImg">`;
   let health = "<p class='center-align'>" + char.health + "</p>";
-  $("#enemies").append(
-    `<div class="col s4"><div class="card">
+    $("#enemies").append(
+      `<div class="col s4"><div class="card">
 <div class="card-content charCard" id="char` +
-    index +
-    `">` +
-    name +
-    img +
-    health +
-    `</div></div></div>`
-  );
+      index +
+      `">` +
+      name +
+      img +
+      health +
+      `</div></div></div>`
+    );
 }
 
 function renderDefenderBox(char) {
@@ -104,6 +104,8 @@ function callForYourCharacterRender(char) {
 
 function listenForCharacterSelection() {
   $(".charCard").on("click", function () {
+
+    // Setting up inital character selection
     if (!selectedCharacterIndex) {
       selectedCharacterIndex = this.id.substring(4);
 
@@ -120,19 +122,22 @@ function listenForCharacterSelection() {
       });
       listenForCharacterSelection()
     }
+
+    // Executing defender selection
     else {
       if (!defenderIndex) {
         defenderIndex = this.id.substring(4)
 
-        console.log("DEF INDEX: ", defenderIndex)
-
         renderDefenderBox(characters[defenderIndex])
         index = 0;
+        // $("#enemies").empty();
         characters.forEach(char => {
-          if ((char.name != characters[selectedCharacterIndex].name) && (char.name != characters[defenderIndex].name)) {
+          let enemyIndex = 0
+          if ((char.name != characters[selectedCharacterIndex].name) && (char.name != characters[defenderIndex].name) && (enemyIndex === 0 )) {
             renderEnemiesBox(char)
           }
           index++;
+          enemyIndex++;
         });
 
       }
