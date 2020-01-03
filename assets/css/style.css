@@ -19,6 +19,11 @@ html {
     padding: 3px !important;
 }
 
+.enemyCard {
+    background-color: red !important;
+    padding: 3px !important;
+}
+
 .sectionTitle {
     font-size: 2vw;
 }
