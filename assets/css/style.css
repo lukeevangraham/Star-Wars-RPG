@@ -32,12 +32,6 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.attackZone {
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-content: flex-start; */
-}
-
 .btn-small {
     width: 100px;
     margin: 1vw;
