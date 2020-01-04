@@ -226,6 +226,8 @@ $("#attackBtn").on("click", function() {
 function resetButtonListen() {
   $("#restartBtn").on("click", function() {
     characters = [];
+    $("#enemies").empty();
+    $("#attackMessage").empty();
     selectedCharacterIndex = null;
     initAllCharacters();
     renderMultipleYourCharOptions(characters);
