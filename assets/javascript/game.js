@@ -1,8 +1,9 @@
-function Character(name, image, health, attackPower, counterAttackPower) {
+function Character(name, image, health, attackPower, initialAttackPower, counterAttackPower) {
   this.name = name;
   this.image = image;
   this.health = health;
   this.attackPower = attackPower;
+  this.initialAttackPower = initialAttackPower;
   this.counterAttackPower = counterAttackPower;
 }
 
@@ -11,13 +12,13 @@ let selectedCharacterIndex;
 let defenderIndex;
 let index;
 
-characters.push(new Character("Yoda", "./assets/images/yoda.jpg", 100, 8, 15));
+characters.push(new Character("Yoda", "./assets/images/yoda.jpg", 100, 8, 8, 15));
 characters.push(
-  new Character("Darth Sidious", "./assets/images/sidious.jpg", 100, 8, 15)
+  new Character("Darth Sidious", "./assets/images/sidious.jpg", 100, 8, 8, 15)
 );
-characters.push(new Character("Leia", "./assets/images/leia.jpg", 100, 8, 15));
+characters.push(new Character("Leia", "./assets/images/leia.jpg", 100, 8, 8, 15));
 characters.push(
-  new Character("Darth Maul", "./assets/images/maul.jpg", 100, 8, 15)
+  new Character("Darth Maul", "./assets/images/maul.jpg", 100, 8, 8, 15)
 );
 
 function renderYourCharacterBox(character) {
@@ -154,20 +155,27 @@ callForYourCharacterRender(characters);
 
 $("#attackBtn").on("click", function () {
   if (selectedCharacterIndex && defenderIndex) {
-    $("#attackMessage").replaceWith(`You attacked ` + characters[defenderIndex].name + ` for ` + characters[selectedCharacterIndex].attackPower + ` damage. \n` + characters[defenderIndex].name + ` attacked you back for ` + characters[defenderIndex].counterAttackPower + ` damage.`)
+    
+    
+    if (characters[selectedCharacterIndex].health > 0) {
+      // SELECTED CHARACTER DAMAGES THE DEFENDER
+      characters[defenderIndex].health -= characters[selectedCharacterIndex].attackPower
+      
+      // DEFENDER INSTANTLY COUNTER ATTACKS
+      characters[selectedCharacterIndex].health -= characters[defenderIndex].counterAttackPower
+      
+      // RE-RENDER CHARACTERS
+      index = selectedCharacterIndex
+      renderYourCharacterBox(characters[selectedCharacterIndex])
+      renderDefenderBox(characters[defenderIndex])
 
-    // SELECTED CHARACTER DAMAGES THE DEFENDER
-    characters[defenderIndex].health -= characters[selectedCharacterIndex].attackPower
-    // console.log(characters[defenderIndex])
-
-    // DEFENDER INSTANTLY COUNTER ATTACKS
-    characters[selectedCharacterIndex].health -= characters[defenderIndex].counterAttackPower
-    // console.log(characters[selectedCharacterIndex])
-
-    // RE-RENDER CHARACTERS
-    index = selectedCharacterIndex
-    renderYourCharacterBox(characters[selectedCharacterIndex])
-    renderDefenderBox(characters[defenderIndex])
+      // Message result
+      if (characters[selectedCharacterIndex].health > 0) {
+        $("#attackMessage").html(`<p>You attacked ` + characters[defenderIndex].name + ` for ` + characters[selectedCharacterIndex].attackPower + ` damage. <br>` + characters[defenderIndex].name + ` attacked you back for ` + characters[defenderIndex].counterAttackPower + ` damage.</p>`)
+      } else {
+        $("#attackMessage").html(`<p>You have been defeated...GAME OVER!!!</p>`)  
+      }
+    }
 
 
 
