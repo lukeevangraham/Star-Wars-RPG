@@ -35,7 +35,7 @@ function initAllCharacters() {
 }
 
 function renderYourCharacterBox(character) {
-  // console.log(character)
+  // console.log("rendering Your Character", character)
   let name = "<p class='center-align'>" + character.name + "</p>";
   let img = `<img src="` + character.image + `" alt="" class="charImg">`;
   let health = "<p class='center-align'>" + character.health + "</p>";
@@ -62,9 +62,11 @@ function renderYourCharacterBox(character) {
         `</div></div></div>`
     );
     if (characters[selectedCharacterIndex].health <= 0) {
+      $("#defender").empty();
       $("#attackMessage").html(
         `<p>You have been defeated...GAME OVER!!!</p><a class="waves-effect waves-light red darken-1 btn-small " id="restartBtn">Restart</a>`
       );
+      defenderIndex = null;
       resetButtonListen();
     }
   }
@@ -89,20 +91,22 @@ function renderEnemiesBox(char) {
 }
 
 function renderDefenderBox(char) {
-  $("#attackMessage").empty();
-  let name = "<p class='center-align'>" + char.name + "</p>";
-  let img = `<img src="` + char.image + `" alt="" class="charImg">`;
-  let health = "<p class='center-align'>" + char.health + "</p>";
-  $("#defender").html(
-    `<div class="col s10"><div class="card">
+  if (char) {
+    $("#attackMessage").empty();
+    let name = "<p class='center-align'>" + char.name + "</p>";
+    let img = `<img src="` + char.image + `" alt="" class="charImg">`;
+    let health = "<p class='center-align'>" + char.health + "</p>";
+    $("#defender").html(
+      `<div class="col s10"><div class="card">
         <div class="card-content charCard"` +
-      defenderIndex +
-      `">` +
-      name +
-      img +
-      health +
-      `</div></div></div>`
-  );
+        defenderIndex +
+        `">` +
+        name +
+        img +
+        health +
+        `</div></div></div>`
+    );
+  }
 }
 
 function renderMultipleYourCharOptions(char) {
@@ -169,12 +173,6 @@ renderMultipleYourCharOptions(characters);
 
 $("#attackBtn").on("click", function() {
   if (selectedCharacterIndex && defenderIndex) {
-    if (characters[selectedCharacterIndex].health <= 0) {
-      $("#attackMessage").html(
-        `<p>You have been defeated...GAME OVER!!!</p><a class="waves-effect waves-light red darken-1 btn-small " id="restartBtn">Restart</a>`
-      );
-      resetButtonListen();
-    }
     if (characters[selectedCharacterIndex].health > 0) {
       // SELECTED CHARACTER DAMAGES THE DEFENDER
       characters[defenderIndex].health -=
@@ -212,6 +210,7 @@ $("#attackBtn").on("click", function() {
               characters[defenderIndex].counterAttackPower +
               ` damage.</p>`
           );
+          // } else if (characters[selectedCharacterIndex].health <= 0) {
         } else {
           renderYourCharacterBox(characters[selectedCharacterIndex]);
         }
@@ -219,10 +218,14 @@ $("#attackBtn").on("click", function() {
       // INCREATE SELECTED CHARACTER'S ATTACK POWER
       characters[selectedCharacterIndex].attackPower +=
         characters[selectedCharacterIndex].initialAttackPower;
+        if (characters[selectedCharacterIndex].health <= 0) {
+          renderYourCharacterBox(characters[selectedCharacterIndex]);
+        }
     }
   } else if (!defenderIndex && characters[selectedCharacterIndex].health > 0) {
     alert("Please select an enemy to attack!");
   } else if (characters[selectedCharacterIndex].health <= 0) {
+  console.log("likely place to show game end")
     renderYourCharacterBox(characters[selectedCharacterIndex]);
   } else {
     alert("Please select a character then choose an opponent!");
