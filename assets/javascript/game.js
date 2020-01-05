@@ -21,13 +21,13 @@ let index;
 
 function initAllCharacters() {
   characters.push(
-    new Character("Yoda", "./assets/images/yoda.jpg", 100, 8, 8, 15)
+    new Character("Yoda", "./assets/images/yoda.jpg", 150, 8, 8, 15)
   );
   characters.push(
-    new Character("Darth Sidious", "./assets/images/sidious.jpg", 100, 8, 8, 15)
+    new Character("Darth Sidious", "./assets/images/sidious.jpg", 180, 8, 8, 15)
   );
   characters.push(
-    new Character("Leia", "./assets/images/leia.jpg", 100, 8, 8, 15)
+    new Character("Leia", "./assets/images/leia.jpg", 120, 8, 8, 15)
   );
   characters.push(
     new Character("Darth Maul", "./assets/images/maul.jpg", 100, 8, 8, 15)
@@ -107,7 +107,7 @@ function renderDefenderBox(char) {
 
 function renderMultipleYourCharOptions(char) {
   if (!selectedCharacterIndex) {
-    $("#characterSelect").empty()
+    $("#characterSelect").empty();
     index = 0;
     char.forEach(character => {
       renderYourCharacterBox(character);
@@ -169,6 +169,12 @@ renderMultipleYourCharOptions(characters);
 
 $("#attackBtn").on("click", function() {
   if (selectedCharacterIndex && defenderIndex) {
+    if (characters[selectedCharacterIndex].health <= 0) {
+      $("#attackMessage").html(
+        `<p>You have been defeated...GAME OVER!!!</p><a class="waves-effect waves-light red darken-1 btn-small " id="restartBtn">Restart</a>`
+      );
+      resetButtonListen();
+    }
     if (characters[selectedCharacterIndex].health > 0) {
       // SELECTED CHARACTER DAMAGES THE DEFENDER
       characters[defenderIndex].health -=
@@ -187,7 +193,7 @@ $("#attackBtn").on("click", function() {
         );
         defenderIndex = null;
         renderYourCharacterBox(characters[selectedCharacterIndex]);
-      } else if (characters[selectedCharacterIndex].health > 0) {
+      } else if (characters[selectedCharacterIndex].health >= 0) {
         // RE-RENDER CHARACTERS
         index = selectedCharacterIndex;
         renderYourCharacterBox(characters[selectedCharacterIndex]);
