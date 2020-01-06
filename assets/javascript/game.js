@@ -21,16 +21,16 @@ let index;
 
 function initAllCharacters() {
   characters.push(
-    new Character("Yoda", "./assets/images/yoda.jpg", 150, 8, 8, 15)
+    new Character("Yoda", "./assets/images/yoda.jpg", 150, 8, 8, 20)
   );
   characters.push(
-    new Character("Darth Sidious", "./assets/images/sidious.jpg", 180, 8, 8, 15)
+    new Character("Darth Sidious", "./assets/images/sidious.jpg", 180, 4, 4, 25)
   );
   characters.push(
-    new Character("Leia", "./assets/images/leia.jpg", 120, 8, 8, 15)
+    new Character("Leia", "./assets/images/leia.jpg", 120, 14, 14, 15)
   );
   characters.push(
-    new Character("Darth Maul", "./assets/images/maul.jpg", 100, 8, 8, 15)
+    new Character("Darth Maul", "./assets/images/maul.jpg", 100, 40, 40, 5)
   );
 }
 
@@ -73,7 +73,7 @@ function renderYourCharacterBox(character) {
 }
 
 function renderEnemiesBox(char) {
-  if (char.health >= 0) {
+  if (char.health > 0) {
     let name = "<p class='center-align'>" + char.name + "</p>";
     let img = `<img src="` + char.image + `" alt="" class="charImg">`;
     let health = "<p class='center-align'>" + char.health + "</p>";
