@@ -6,6 +6,8 @@ Depoloyed at:  https://lukeevangraham.github.io/Star-Wars-RPG/
 
 In this assignment, I created a fun and interactive game for web browsers. This time, the app dynamically updates HTML pages with the jQuery library.
 
+![App](./readmeImages/starWars.png?raw=true "App")
+
 ## Using the app
 
 
